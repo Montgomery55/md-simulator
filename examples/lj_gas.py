@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -10,7 +11,7 @@ from md.forces import lennard_jones
 
 num_atoms = 100
 box_size = 10
-num_steps = 100
+num_steps = 1000
 dt = 0.005
 temperature = 1
 output_xyz = 'lj_tractory.xyz'
@@ -53,9 +54,16 @@ output_xyz.close()
 energy_file.close()
 print("simulation complete Files saved in 'outputs/'")
 
-import matplotlib.pyplot as plt
-
-data = np.loadtxt("")
+data = np.loadtxt('outputs/lj_energy.txt')
+plt.plot(data[:,0], data[:,1], color='blue', label='Kinetic')
+plt.plot(data[:,0], data[:,2], color='red', label='Potential')
+plt.plot(data[:,0], data[:,3], color='purple', label='Total')
+plt.xlabel('Step')
+plt.ylabel('Energy')
+plt.legend()
+plt.title('Energy vs Time')
+plt.tight_layout()
+plt.show()
 
 
 

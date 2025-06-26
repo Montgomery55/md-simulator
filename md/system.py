@@ -30,4 +30,4 @@ class MolecularSystem:
 
     def apply_periodic_boundary_conditions(self):
         #wraps positions back into the box if they leave the box, minimum image convention
-        self.positions %= self.box_size
+        self.positions = [pos % self.box_size for pos in self.positions]

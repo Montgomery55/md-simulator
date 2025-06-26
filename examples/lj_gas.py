@@ -10,11 +10,11 @@ from md.forces import lennard_jones
 
 num_atoms = 100
 box_size = 10
-num_steps = 500
+num_steps = 100
 dt = 0.005
 temperature = 1
 output_xyz = 'lj_tractory.xyz'
-output_energy = 'lj_energy.xyz'
+output_energy = 'lj_energy.txt'
 
 #initilize the system
 system = MolecularSystem(num_atoms=num_atoms, box_size=box_size)
@@ -53,7 +53,9 @@ output_xyz.close()
 energy_file.close()
 print("simulation complete Files saved in 'outputs/'")
 
+import matplotlib.pyplot as plt
 
+data = np.loadtxt("")
 
 
 

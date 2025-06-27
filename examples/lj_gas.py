@@ -7,12 +7,12 @@ import numpy as np
 from md.system import MolecularSystem
 from md.integrator import velocity_verlet
 from md.forces import lennard_jones
-from md.thermostat import rescale_velocities
+from md.thermostat import *
 
 
 num_atoms = 100
 box_size = 10
-num_steps = 1000
+num_steps = 100
 dt = 0.005
 temperature = 1
 output_xyz = 'lj_tractory.xyz'
@@ -48,10 +48,12 @@ for step in range(num_steps):
     if step % 10 == 0:
         write_xyz_step(output_xyz, system.positions, f"Step {step}")
         energy_file.write(f"{step}\t{kinetic:.3f}\t{potential:.3f}\t{total_energy:.3f}\n")
+        #rescale temperature to be what we want (using berendsen_thermostat)
+        _ = berendsen_thermostat(system, 2, 1) #will rescale to have a temperature of 10
 
     if step % 100 == 0:
-        #rescale temperature to be what we want (using thermostat)
-        _ = rescale_velocities(system, 5) #will rescale to have a temperature of 10
+        #rescale temperature to be what we want (using rescale_velocities)
+        #_ = rescale_velocities(system, 5) #will rescale to have a temperature of 10
         print(f"Step {step}: E_KE = {kinetic:.3f}, E_V = {potential:.3f}, E_total = {total_energy:3f}\n")
 
 output_xyz.close()

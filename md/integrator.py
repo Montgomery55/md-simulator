@@ -17,7 +17,7 @@ def velocity_verlet(system, force_func, dt):
     system.apply_periodic_boundary_conditions()
 
     # calculate forces on new positions
-    f_new, potential = force_func(system.positions, system.box_size)
+    f_new, potential = force_func(system.charge, system.positions, system.box_size)
     system.forces = f_new
 
     #second step velocity update

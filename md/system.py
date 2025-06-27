@@ -1,19 +1,22 @@
 import numpy as np
 
 class MolecularSystem:
-    def __init__(self, num_atoms, box_size, mass=None):
+    def __init__(self, num_atoms, box_size, mass=None, charge=None):
         self.num_atoms = num_atoms
         self.box_size = box_size
         if np.any(mass == None):
             self.mass = np.full(num_atoms, 1) #array of length num_atoms with value 1
         else:
             self.mass = mass
+        if np.any(mass == None):
+            self.charge = np.full(num_atoms, 0) #array of length num_atoms with value 1
+        else:
+            self.charge = charge
 
         self.positions = np.zeros((num_atoms, 3))
         self.velocities = np.zeros((num_atoms, 3))
         self.forces = np.zeros((num_atoms, 3))
         self.kinetic_energy = 0
-        self.charges = np.zeros((num_atoms))
 
     def randomize_positions(self, min_dist=0.5):
         #randomizes all atom positions so they are all at least 0.5 units apart

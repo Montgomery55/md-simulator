@@ -6,27 +6,31 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import numpy as np
 from md.system import MolecularSystem
 from md.integrator import velocity_verlet
-from md.forces import lennard_jones
+from md.forces import *
 from md.thermostat import *
 
 
 num_atoms = 100
 mass = np.random.rand(num_atoms)*5
+charge = np.zeros(num_atoms)
+#for i in range(num_atoms):
+    #if i % 2 == 0:
+        #charge[i] = -1 * charge[i]
 box_size = 10
-num_steps = 200
+num_steps = 1000
 dt = 0.005
 temperature = 1
 output_xyz = 'lj_tractory.xyz'
 output_energy = 'lj_energy.txt'
 
 #initilize the system
-system = MolecularSystem(num_atoms=num_atoms, box_size=box_size, mass=mass)
+system = MolecularSystem(num_atoms=num_atoms, box_size=box_size, mass=mass, charge=charge)
 system.randomize_positions(min_dist=0.8)
 system.randomize_velocities(temp=temperature)
 system.kinetic_energy_calculator()
 
 #compute initial forces
-system.forces, _ = lennard_jones(system.positions, system.box_size)
+system.forces, total_potential = noncovalent_potential_and_forces(system.charge, system.positions, system.box_size)
 
 #prepare output files
 os.makedirs("outputs", exist_ok=True)
@@ -40,7 +44,7 @@ def write_xyz_step(xyz_file, positions, comment=""):
 
 #running the simulation
 for step in range(num_steps):
-    potential = velocity_verlet(system, lennard_jones, dt)
+    potential = velocity_verlet(system, noncovalent_potential_and_forces, dt)
 
     kinetic = 0.5 * np.sum(system.mass[:, np.newaxis] * system.velocities**2)
     total_energy = kinetic + potential

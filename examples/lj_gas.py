@@ -11,15 +11,16 @@ from md.thermostat import *
 
 
 num_atoms = 100
+mass = np.random.rand(num_atoms)*5
 box_size = 10
-num_steps = 100
+num_steps = 200
 dt = 0.005
 temperature = 1
 output_xyz = 'lj_tractory.xyz'
 output_energy = 'lj_energy.txt'
 
 #initilize the system
-system = MolecularSystem(num_atoms=num_atoms, box_size=box_size)
+system = MolecularSystem(num_atoms=num_atoms, box_size=box_size, mass=mass)
 system.randomize_positions(min_dist=0.8)
 system.randomize_velocities(temp=temperature)
 system.kinetic_energy_calculator()

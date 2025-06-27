@@ -41,7 +41,7 @@ def write_xyz_step(xyz_file, positions, comment=""):
 for step in range(num_steps):
     potential = velocity_verlet(system, lennard_jones, dt)
 
-    kinetic = 0.5 * system.mass * np.sum(system.velocities**2)
+    kinetic = 0.5 * np.sum(system.mass[:, np.newaxis] * system.velocities**2)
     total_energy = kinetic + potential
 
     #save every 10 steps

@@ -10,7 +10,7 @@ def velocity_verlet(system, force_func, dt):
         - dt: timestep size
     """
     #half step velocity update
-    system.velocities += dt/2 * system.forces/system.mass
+    system.velocities += dt/2 * system.forces/system.mass[:, np.newaxis]
 
     #full step position update
     system.positions += dt * system.velocities 
@@ -21,6 +21,6 @@ def velocity_verlet(system, force_func, dt):
     system.forces = f_new
 
     #second step velocity update
-    system.velocities += dt/2 * system.forces/system.mass
+    system.velocities += dt/2 * system.forces/system.mass[:, np.newaxis]
 
     return potential

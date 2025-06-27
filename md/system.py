@@ -4,7 +4,7 @@ class MolecularSystem:
     def __init__(self, num_atoms, box_size, mass=None):
         self.num_atoms = num_atoms
         self.box_size = box_size
-        if mass == None:
+        if mass.any() == None:
             self.mass = np.full(num_atoms, 1) #array of length num_atoms with value 1
         else:
             self.mass = mass
